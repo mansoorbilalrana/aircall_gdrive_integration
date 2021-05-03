@@ -312,15 +312,17 @@ Route::get('hello', function () {
 
     $directory = $contents
         ->where('type', '=', 'dir')
-        ->where('filename', '=', now()->month.'-'.now()->year)
+        ->where('filename', '=', '1-'.now()->year)
         ->first();
+
+    dd($directory);
 
 
     if($directory == null){
-        Storage::cloud()->makeDirectory(now()->month.'-'.now()->year);
+        Storage::cloud()->makeDirectory('1-'.now()->year);
         $directory = $contents
         ->where('type', '=', 'dir')
-        ->where('filename', '=', now()->month.'-'.now()->year)
+        ->where('filename', '=', '1-'.now()->year)
         ->first();
     }
 

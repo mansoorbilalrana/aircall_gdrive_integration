@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Signatureverification;
+namespace App\SignatureVerify;
 use \Spatie\WebhookClient\SignatureValidator\SignatureValidator;
 use Illuminate\Http\Request;
 use \Spatie\WebhookClient\WebhookConfig;

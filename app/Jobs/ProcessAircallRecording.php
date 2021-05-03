@@ -54,6 +54,7 @@ class ProcessAircallRecording extends SpatieProcessWebhookJob
 
         if($directory == null){
             Storage::cloud()->makeDirectory(now()->month.'-'.now()->year);
+            $contents = collect(Storage::cloud()->listContents($dir, $recursive));
             $directory = $contents
             ->where('type', '=', 'dir')
             ->where('filename', '=', now()->month.'-'.now()->year)
