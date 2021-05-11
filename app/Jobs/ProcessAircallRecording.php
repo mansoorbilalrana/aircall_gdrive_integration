@@ -53,14 +53,14 @@ class ProcessAircallRecording extends SpatieProcessWebhookJob
             ->first();
 
         if($directory == null){
-            Storage::cloud()->makeDirectory(now()->month.'-'.now()->year);
+            Storage::cloud()->makeDirectory($directory['path'].'/'.now()->month.'-'.now()->year);
             $contents = collect(Storage::cloud()->listContents($dir, $recursive));
             $directory = $contents
             ->where('type', '=', 'dir')
             ->where('filename', '=', now()->month.'-'.now()->year)
             ->first();
         }
-        $rand = rand(0, 999999);
+        $rand = now()->day.'-'.now()->month.'-'.now()->year.' | '.$data->payload['data']['raw_digits'];
         Storage::cloud()->put($directory['path'].'/'.$rand.'.mp3', $fileData);
     }
 
