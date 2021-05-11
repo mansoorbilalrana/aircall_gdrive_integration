@@ -37,12 +37,12 @@ class ProcessAircallRecording extends SpatieProcessWebhookJob
         //Do something with the eventL
         if($data->payload['data']['recording'] != null){
             $fileData = file_get_contents($data->payload['data']['recording']);
-            $this->create_directory($fileData);
+            $this->create_directory($fileData, $data->payload['data']['raw_digits']);
         }
         http_response_code(200); //Acknowledge you received the response
     }
 
-    public function create_directory($fileData){
+    public function create_directory($fileData, $no){
         $dir = '/';
         $recursive = false; // Get subdirectories also?
         $contents = collect(Storage::cloud()->listContents($dir, $recursive));
@@ -60,7 +60,7 @@ class ProcessAircallRecording extends SpatieProcessWebhookJob
             ->where('filename', '=', now()->month.'-'.now()->year)
             ->first();
         }
-        $rand = now()->day.'-'.now()->month.'-'.now()->year.' | '.$data->payload['data']['raw_digits'];
+        $rand = now()->day.'-'.now()->month.'-'.now()->year.' | '.$no;
         Storage::cloud()->put($directory['path'].'/'.$rand.'.mp3', $fileData);
     }
 
